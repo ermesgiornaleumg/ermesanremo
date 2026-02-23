@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Serata 1 | ErmeSanremo</title>
 
-  <!-- Google Analytics (metti il tuo ID GA4) -->
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -17,36 +17,42 @@
   <style>
     :root{
       --bg:#0b0b12;
-      --card:#111122;
       --text:#f2f2ff;
       --muted:#b8b8d6;
-      --border: rgba(255,255,255,.10);
+      --border:rgba(255,255,255,.10);
       --accent:#7c5cff;
-      --accent2:#19d3ff;
       --shadow:0 12px 30px rgba(0,0,0,.35);
     }
 
     *{box-sizing:border-box;}
+
     body{
       margin:0;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       background:linear-gradient(180deg,#0b0b12,#07070c 70%);
       color:var(--text);
-      line-height:1.6;
+      line-height:1.7;
     }
 
-    .wrap{max-width:900px;margin:0 auto;padding:24px;}
+    .wrap{
+      max-width:800px;
+      margin:0 auto;
+      padding:30px 20px;
+    }
 
-    a{color:var(--text);text-decoration:none;}
-    .back{color:var(--muted);font-size:14px;}
+    a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:14px;
+    }
 
     header{
-      margin-bottom:24px;
+      margin-bottom:30px;
     }
 
     h1{
       margin:10px 0 6px;
-      font-size:32px;
+      font-size:34px;
     }
 
     .meta{
@@ -54,66 +60,35 @@
       font-size:14px;
     }
 
-    .card{
+    article{
       background:rgba(255,255,255,.03);
       border:1px solid var(--border);
-      border-radius:18px;
-      padding:20px;
+      border-radius:20px;
+      padding:28px;
       box-shadow:var(--shadow);
-      margin-bottom:20px;
     }
 
-    .highlight{
-      border-left:4px solid var(--accent);
-      padding-left:14px;
-      margin:18px 0;
-      font-weight:600;
+    article p{
+      margin-bottom:18px;
     }
 
-    h2{
-      margin-top:0;
-      margin-bottom:10px;
-    }
-
-    ul{
+    .quote{
+      margin:24px 0;
       padding-left:18px;
-      color:var(--muted);
-    }
-
-    .pagelle{
-      display:grid;
-      gap:12px;
-      margin-top:10px;
-    }
-
-    .pagella{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:12px;
-      border-radius:14px;
-      border:1px solid var(--border);
-      background:rgba(0,0,0,.25);
-    }
-
-    .voto{
-      padding:6px 12px;
-      border-radius:999px;
-      font-weight:800;
-      background:linear-gradient(135deg, rgba(124,92,255,.35), rgba(25,211,255,.25));
-      border:1px solid rgba(255,255,255,.15);
+      border-left:4px solid var(--accent);
+      font-style:italic;
+      font-size:18px;
     }
 
     .nav-serate{
       display:flex;
       justify-content:space-between;
-      margin-top:30px;
+      margin-top:40px;
       font-size:14px;
-      color:var(--muted);
     }
 
     footer{
-      margin-top:40px;
+      margin-top:50px;
       padding-top:20px;
       border-top:1px solid var(--border);
       text-align:center;
@@ -125,9 +100,10 @@
 </head>
 
 <body>
+
   <div class="wrap">
 
-    <a class="back" href="../index.html">← Torna al Calendario</a>
+    <a href="../index.html">← Torna al Calendario</a>
 
     <header>
       <h1>Serata 1</h1>
@@ -136,54 +112,34 @@
       </p>
     </header>
 
-    <div class="card">
-      <h2>Il racconto della serata</h2>
+    <article>
 
       <p>
-        Inserisci qui il commento principale della serata.
-        Scrittura fluida, taglio universitario ma autorevole.
+        Inserisci qui il racconto completo della serata.
+        Scrittura scorrevole, narrativa ma analitica.
+        Racconta l'atmosfera, la conduzione, le performance,
+        le reazioni del pubblico e le sensazioni generali.
       </p>
 
-      <div class="highlight">
-        Frase chiave della serata: “Inserisci qui una citazione forte.”
+      <p>
+        Puoi strutturare il testo in modo fluido,
+        come un vero articolo giornalistico.
+        Alterna descrizione e giudizio critico.
+      </p>
+
+      <div class="quote">
+        “Qui puoi inserire la frase simbolo della serata,
+        una citazione forte o una sintesi significativa.”
       </div>
 
       <p>
-        Continua con analisi su performance, conduzione,
-        momenti iconici e atmosfera generale.
+        Concludi con una riflessione finale:
+        cosa ha lasciato questa serata?
+        Ha alzato l’asticella?
+        Ha confermato le aspettative?
       </p>
-    </div>
 
-    <div class="card">
-      <h2>Top & Flop</h2>
-
-      <ul>
-        <li><strong>Top:</strong> Artista / momento che ha convinto</li>
-        <li><strong>Sorpresa:</strong> Chi non ti aspettavi</li>
-        <li><strong>Flop:</strong> Cosa non ha funzionato</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2>Pagelle della serata</h2>
-
-      <div class="pagelle">
-        <div class="pagella">
-          <span>Artista / Brano</span>
-          <span class="voto">8.5</span>
-        </div>
-
-        <div class="pagella">
-          <span>Artista / Brano</span>
-          <span class="voto">7.0</span>
-        </div>
-
-        <div class="pagella">
-          <span>Artista / Brano</span>
-          <span class="voto">6.0</span>
-        </div>
-      </div>
-    </div>
+    </article>
 
     <div class="nav-serate">
       <a href="serata-0.html">← Serata precedente</a>
@@ -195,5 +151,6 @@
     </footer>
 
   </div>
+
 </body>
 </html>
