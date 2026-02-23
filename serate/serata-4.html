@@ -1,1 +1,199 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Serata 1 | ErmeSanremo</title>
 
+  <!-- Google Analytics (metti il tuo ID GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  <style>
+    :root{
+      --bg:#0b0b12;
+      --card:#111122;
+      --text:#f2f2ff;
+      --muted:#b8b8d6;
+      --border: rgba(255,255,255,.10);
+      --accent:#7c5cff;
+      --accent2:#19d3ff;
+      --shadow:0 12px 30px rgba(0,0,0,.35);
+    }
+
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:linear-gradient(180deg,#0b0b12,#07070c 70%);
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    .wrap{max-width:900px;margin:0 auto;padding:24px;}
+
+    a{color:var(--text);text-decoration:none;}
+    .back{color:var(--muted);font-size:14px;}
+
+    header{
+      margin-bottom:24px;
+    }
+
+    h1{
+      margin:10px 0 6px;
+      font-size:32px;
+    }
+
+    .meta{
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .card{
+      background:rgba(255,255,255,.03);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:20px;
+      box-shadow:var(--shadow);
+      margin-bottom:20px;
+    }
+
+    .highlight{
+      border-left:4px solid var(--accent);
+      padding-left:14px;
+      margin:18px 0;
+      font-weight:600;
+    }
+
+    h2{
+      margin-top:0;
+      margin-bottom:10px;
+    }
+
+    ul{
+      padding-left:18px;
+      color:var(--muted);
+    }
+
+    .pagelle{
+      display:grid;
+      gap:12px;
+      margin-top:10px;
+    }
+
+    .pagella{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(0,0,0,.25);
+    }
+
+    .voto{
+      padding:6px 12px;
+      border-radius:999px;
+      font-weight:800;
+      background:linear-gradient(135deg, rgba(124,92,255,.35), rgba(25,211,255,.25));
+      border:1px solid rgba(255,255,255,.15);
+    }
+
+    .nav-serate{
+      display:flex;
+      justify-content:space-between;
+      margin-top:30px;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    footer{
+      margin-top:40px;
+      padding-top:20px;
+      border-top:1px solid var(--border);
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <a class="back" href="../index.html">← Torna al Calendario</a>
+
+    <header>
+      <h1>Serata 1</h1>
+      <p class="meta">
+        Commento a cura di <strong>Nome Autore</strong> • Data
+      </p>
+    </header>
+
+    <div class="card">
+      <h2>Il racconto della serata</h2>
+
+      <p>
+        Inserisci qui il commento principale della serata.
+        Scrittura fluida, taglio universitario ma autorevole.
+      </p>
+
+      <div class="highlight">
+        Frase chiave della serata: “Inserisci qui una citazione forte.”
+      </div>
+
+      <p>
+        Continua con analisi su performance, conduzione,
+        momenti iconici e atmosfera generale.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Top & Flop</h2>
+
+      <ul>
+        <li><strong>Top:</strong> Artista / momento che ha convinto</li>
+        <li><strong>Sorpresa:</strong> Chi non ti aspettavi</li>
+        <li><strong>Flop:</strong> Cosa non ha funzionato</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Pagelle della serata</h2>
+
+      <div class="pagelle">
+        <div class="pagella">
+          <span>Artista / Brano</span>
+          <span class="voto">8.5</span>
+        </div>
+
+        <div class="pagella">
+          <span>Artista / Brano</span>
+          <span class="voto">7.0</span>
+        </div>
+
+        <div class="pagella">
+          <span>Artista / Brano</span>
+          <span class="voto">6.0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-serate">
+      <a href="serata-0.html">← Serata precedente</a>
+      <a href="serata-2.html">Serata successiva →</a>
+    </div>
+
+    <footer>
+      ERMES • ErmeSanremo
+    </footer>
+
+  </div>
+</body>
+</html>
