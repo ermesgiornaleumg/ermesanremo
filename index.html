@@ -345,49 +345,93 @@
         </div>
       </section>
 
-      <!-- PAGELLE -->
-      <section class="section" id="pagelle">
-        <div class="sectionHead">
-          <div>
-            <h2 style="margin:0 0 6px;">Pagelle</h2>
-            <p class="kicker">Voti rapidi (0–10) + commento secco.</p>
-          </div>
-        </div>
+     <!-- PAGELLE LETTORI (AUTO) -->
+<section class="section" id="pagelle">
+  <div class="sectionHead">
+    <div>
+      <h2 style="margin:0 0 6px;">Pagelle dei lettori</h2>
+      <p class="kicker">Media “Voto serata” + classifiche basate sui sondaggi.</p>
+    </div>
+  </div>
 
-        <div class="pagelleGrid">
-          <div class="pagella">
-            <div class="row">
-              <strong>Artista / Brano</strong>
-              <span class="badge" style="min-width:64px;">8.5</span>
-            </div>
-            <div class="calMeta">“Presenza scenica pazzesca, ritornello che resta.”</div>
-          </div>
+  <!-- Media voto -->
+  <div class="pagelleGrid">
+    <div class="pagella">
+      <div class="row">
+        <strong>Voto serata (media)</strong>
+        <span class="badge" id="media_generale">--</span>
+      </div>
+      <div class="calMeta" id="voti_generali">0 voti</div>
+    </div>
+  </div>
 
-          <div class="pagella">
-            <div class="row">
-              <strong>Artista / Brano</strong>
-              <span class="badge" style="min-width:64px;">7.0</span>
-            </div>
-            <div class="calMeta">“Solida ma manca il colpo di teatro.”</div>
-          </div>
+  <!-- Classifiche -->
+  <div class="grid" style="margin-top:14px;">
+    <div class="card">
+      <h3 style="margin:0 0 8px;">Top 5 — Miglior artista e canzone</h3>
+      <ol id="top5_migliori" style="margin:0; padding-left:18px; color: var(--muted);">
+        <li>Caricamento…</li>
+      </ol>
+    </div>
 
-          <div class="pagella">
-            <div class="row">
-              <strong>Artista / Brano</strong>
-              <span class="badge" style="min-width:64px;">6.0</span>
-            </div>
-            <div class="calMeta">“Buona idea, resa un po’ piatta.”</div>
-          </div>
+    <div class="card">
+      <h3 style="margin:0 0 8px;">Bottom 3 — Peggior artista e canzone</h3>
+      <ol id="top3_peggiori" style="margin:0; padding-left:18px; color: var(--muted);">
+        <li>Caricamento…</li>
+      </ol>
+    </div>
+  </div>
 
-          <div class="pagella">
-            <div class="row">
-              <strong>Artista / Brano</strong>
-              <span class="badge" style="min-width:64px;">9.0</span>
-            </div>
-            <div class="calMeta">“Standing ovation interna alla redazione.”</div>
-          </div>
-        </div>
-      </section>
+  <script>
+    const URL_SONDAGGIO = "https://script.google.com/macros/s/AKfycbwqSoW3ut2Q9YJ7jp5Fwg8_ec8ZU-c-wuPJwS2D2iMy2OGUuErqgCmRN-z8YKjjnTvK/exec";
+
+    function renderList(elId, items, emptyText) {
+      const el = document.getElementById(elId);
+      if (!el) return;
+
+      if (!items || !items.length) {
+        el.innerHTML = "<li>" + emptyText + "</li>";
+        return;
+      }
+
+      el.innerHTML = items.map(it => {
+        const label = (it.label ?? "").toString();
+        const voti = Number(it.voti ?? 0);
+        return `<li>${label} <span style="opacity:.85;">— ${voti}</span></li>`;
+      }).join("");
+    }
+
+    fetch(URL_SONDAGGIO)
+      .then(r => r.json())
+      .then(d => {
+        // Se lo script restituisce error
+        if (d && d.error) {
+          document.getElementById("media_generale").textContent = "--";
+          document.getElementById("voti_generali").textContent = d.error;
+          renderList("top5_migliori", [], "Errore: " + d.error);
+          renderList("top3_peggiori", [], "Errore: " + d.error);
+          return;
+        }
+
+        // Media + voti
+        const media = (d.media === null || d.media === undefined) ? "--" : Number(d.media).toFixed(2);
+        const voti  = (d.voti === null || d.voti === undefined) ? 0 : Number(d.voti);
+
+        document.getElementById("media_generale").textContent = media;
+        document.getElementById("voti_generali").textContent = voti + " voti";
+
+        // Classifiche
+        renderList("top5_migliori", d.top5_migliori, "Ancora nessuna risposta.");
+        renderList("top3_peggiori", d.top3_peggiori, "Ancora nessuna risposta.");
+      })
+      .catch(() => {
+        document.getElementById("media_generale").textContent = "--";
+        document.getElementById("voti_generali").textContent = "Errore caricamento";
+        renderList("top5_migliori", [], "Errore caricamento.");
+        renderList("top3_peggiori", [], "Errore caricamento.");
+      });
+  </script>
+</section>
 
       <!-- LINK -->
       <section class="section" id="link">
