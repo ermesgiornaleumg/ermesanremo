@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ErmeSanremo | ERMES</title>
+  <meta name="description" content="ErmeSanremo: calendario serate, pagelle e classifica Spotify a cura della redazione ERMES." />
+
+  <!-- ✅ Google Analytics (GA4): sostituisci G-XXXXXXXXXX -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  <style>
+    :root{
+      --bg:#0b0b12;
+      --card:#111122;
+      --text:#f2f2ff;
+      --muted:#b8b8d6;
+      --border: rgba(255,255,255,.10);
+      --accent:#7c5cff;
+      --accent2:#19d3ff;
+      --btn:#ffffff;
+      --btnText:#0b0b12;
+      --shadow: 0 12px 30px rgba(0,0,0,.35);
+    }
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(124,92,255,.35), transparent 55%),
+                  radial-gradient(900px 500px at 90% 10%, rgba(25,211,255,.25), transparent 50%),
+                  linear-gradient(180deg, #0b0b12, #07070c 70%);
+      color: var(--text);
+      line-height:1.55;
+    }
+    .wrap{ max-width: 1060px; margin: 0 auto; padding: 0 18px; }
+
+    header{
+      position: relative;
+      padding: 28px 0 18px;
+      border-bottom: 1px solid var(--border);
+      overflow:hidden;
+    }
+    .stageGlow{
+      position:absolute; inset:-80px -60px auto -60px;
+      height: 220px;
+      background:
+        radial-gradient(500px 120px at 25% 60%, rgba(124,92,255,.35), transparent 60%),
+        radial-gradient(480px 120px at 75% 40%, rgba(25,211,255,.30), transparent 60%);
+      filter: blur(14px);
+      pointer-events:none;
+    }
+    .topRow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .logo{
+      height: 56px;
+      width:auto;
+      display:block;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.35));
+    }
+    .tagline{
+      margin:0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 12px;
+      border:1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255,255,255,.03);
+      backdrop-filter: blur(6px);
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 18px rgba(124,92,255,.55);
+    }
+
+    nav{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .navlink{
+      text-decoration:none;
+      padding: 9px 12px;
+      border-radius: 12px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      font-size: 14px;
+    }
+    .navlink:hover{ border-color: rgba(255,255,255,.22); }
+
+    main{ padding: 18px 0 26px; }
+
+    .hero{
+      margin-top: 18px;
+      border:1px solid var(--border);
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(124,92,255,.10), rgba(25,211,255,.08));
+      box-shadow: var(--shadow);
+      padding: 18px;
+      position: relative;
+      overflow:hidden;
+    }
+    .hero::after{
+      content:"";
+      position:absolute; inset:-40px;
+      background: radial-gradient(380px 160px at 30% 30%, rgba(255,255,255,.10), transparent 70%);
+      filter: blur(6px);
+      pointer-events:none;
+    }
+    .hero h1{
+      margin:0 0 8px;
+      font-size: 26px;
+      letter-spacing:.2px;
+      position:relative;
+      z-index:1;
+    }
+    .hero p{
+      margin:0;
+      color: var(--muted);
+      position:relative;
+      z-index:1;
+    }
+
+    .section{
+      margin-top: 14px;
+      border:1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255,255,255,.03);
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+    .sectionHead{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .kicker{
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0;
+    }
+
+    /* CALENDARIO */
+    .calGrid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .calItem{
+      border:1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      background: rgba(0,0,0,.18);
+      text-decoration:none;
+      display:block;
+    }
+    .calItem:hover{ border-color: rgba(255,255,255,.22); }
+    .calTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    .badge{
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 800;
+      background: linear-gradient(135deg, rgba(124,92,255,.35), rgba(25,211,255,.25));
+      border:1px solid rgba(255,255,255,.12);
+      min-width: 84px;
+      text-align:center;
+      color: var(--text);
+      font-size: 13px;
+    }
+    .calMeta{ margin-top: 8px; color: var(--muted); font-size: 14px; }
+
+    /* SPOTIFY */
+    .spotifyFrame{
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow:hidden;
+      background: rgba(0,0,0,.22);
+    }
+    iframe{ display:block; width:100%; border:0; }
+
+    /* PAGELLE */
+    .pagelleGrid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .pagella{
+      border:1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      background: rgba(0,0,0,.18);
+    }
+    .row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    footer{
+      border-top: 1px solid var(--border);
+      padding: 20px 0;
+      color: var(--muted);
+      text-align:center;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="stageGlow"></div>
+
+    <div class="wrap">
+      <div class="topRow">
+        <div class="brand">
+          <img class="logo" src="foto/logo.png" alt="ErmeSanremo - ERMES" />
+          <p class="tagline">Speciale ERMES • calendario serate • pagelle • playlist della redazione</p>
+        </div>
+
+        <div class="pill">
+          <span class="dot"></span>
+          <span>Aggiornamenti durante il Festival</span>
+        </div>
+      </div>
+
+      <nav>
+        <a class="navlink" href="#calendario">Calendario</a>
+        <a class="navlink" href="#spotify">Classifica Spotify</a>
+        <a class="navlink" href="#pagelle">Pagelle</a>
+        <a class="navlink" href="#link">Link</a>
+      </nav>
+
+      <section class="hero">
+        <h1>ErmeSanremo</h1>
+        <p>Sezione speciale ERMES: ogni serata ha la sua pagina con commento, highlights e momenti iconici.</p>
+      </section>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+
+      <!-- ✅ CALENDARIO (solo questo al posto del commento in home) -->
+      <section class="section" id="calendario">
+        <div class="sectionHead">
+          <div>
+            <h2 style="margin:0 0 6px;">CALENDARIO</h2>
+            <p class="kicker">Clicca una serata per aprire la pagina dedicata.</p>
+          </div>
+        </div>
+
+        <div class="calGrid">
+          <a class="calItem" href="serate/serata-1.html">
+            <div class="calTop">
+              <strong>Serata 1</strong>
+              <span class="badge">COMMENTO</span>
+            </div>
+            <div class="calMeta">Recap + prime impressioni</div>
+          </a>
+
+          <a class="calItem" href="serate/serata-2.html">
+            <div class="calTop">
+              <strong>Serata 2</strong>
+              <span class="badge">COMMENTO</span>
+            </div>
+            <div class="calMeta">Cosa ci convince / cosa no</div>
+          </a>
+
+          <a class="calItem" href="serate/serata-3.html">
+            <div class="calTop">
+              <strong>Serata 3</strong>
+              <span class="badge">COMMENTO</span>
+            </div>
+            <div class="calMeta">Top & flop + momenti meme</div>
+          </a>
+
+          <a class="calItem" href="serate/finale.html">
+            <div class="calTop">
+              <strong>Finale</strong>
+              <span class="badge">COMMENTO</span>
+            </div>
+            <div class="calMeta">Giudizio finale + highlights</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- SPOTIFY -->
+      <section class="section" id="spotify">
+        <div class="sectionHead">
+          <div>
+            <h2 style="margin:0 0 6px;">Classifica Spotify della redazione</h2>
+            <p class="kicker">Playlist aggiornata da ERMES (embed Spotify).</p>
+          </div>
+        </div>
+
+        <div class="spotifyFrame">
+          <iframe
+            style="border-radius:16px"
+            src="https://open.spotify.com/embed/playlist/INSERISCI_ID_PLAYLIST?utm_source=generator"
+            height="380"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"></iframe>
+        </div>
+      </section>
+
+      <!-- PAGELLE -->
+      <section class="section" id="pagelle">
+        <div class="sectionHead">
+          <div>
+            <h2 style="margin:0 0 6px;">Pagelle</h2>
+            <p class="kicker">Voti rapidi (0–10) + commento secco.</p>
+          </div>
+        </div>
+
+        <div class="pagelleGrid">
+          <div class="pagella">
+            <div class="row">
+              <strong>Artista / Brano</strong>
+              <span class="badge" style="min-width:64px;">8.5</span>
+            </div>
+            <div class="calMeta">“Presenza scenica pazzesca, ritornello che resta.”</div>
+          </div>
+
+          <div class="pagella">
+            <div class="row">
+              <strong>Artista / Brano</strong>
+              <span class="badge" style="min-width:64px;">7.0</span>
+            </div>
+            <div class="calMeta">“Solida ma manca il colpo di teatro.”</div>
+          </div>
+
+          <div class="pagella">
+            <div class="row">
+              <strong>Artista / Brano</strong>
+              <span class="badge" style="min-width:64px;">6.0</span>
+            </div>
+            <div class="calMeta">“Buona idea, resa un po’ piatta.”</div>
+          </div>
+
+          <div class="pagella">
+            <div class="row">
+              <strong>Artista / Brano</strong>
+              <span class="badge" style="min-width:64px;">9.0</span>
+            </div>
+            <div class="calMeta">“Standing ovation interna alla redazione.”</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LINK -->
+      <section class="section" id="link">
+        <div class="sectionHead">
+          <div>
+            <h2 style="margin:0 0 6px;">Link</h2>
+            <p class="kicker">Sito ERMES e canali social.</p>
+          </div>
+        </div>
+
+        <div class="calGrid">
+          <a class="calItem" href="https://www.ermes-umg.it" target="_blank" rel="noreferrer">
+            <div class="calTop">
+              <strong>Vai al sito ERMES</strong>
+              <span class="badge">LINK</span>
+            </div>
+            <div class="calMeta">Torna al giornalino principale</div>
+          </a>
+
+          <a class="calItem" href="#" target="_blank" rel="noreferrer">
+            <div class="calTop">
+              <strong>Instagram</strong>
+              <span class="badge">SOCIAL</span>
+            </div>
+            <div class="calMeta">Inserisci qui il link IG</div>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    ERMES • ErmeSanremo — GitHub Pages
+  </footer>
+</body>
+</html>
