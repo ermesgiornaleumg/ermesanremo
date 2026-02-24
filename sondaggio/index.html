@@ -1,1 +1,121 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sondaggio | ErmeSanremo</title>
 
+  <!-- GA4 (se lo usi) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  <style>
+    :root{
+      --bg:#0b0b12;
+      --text:#f2f2ff;
+      --muted:#b8b8d6;
+      --border:rgba(255,255,255,.10);
+      --shadow:0 12px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:linear-gradient(180deg,#0b0b12,#07070c 70%);
+      color:var(--text);
+      line-height:1.6;
+    }
+    .wrap{max-width:900px;margin:0 auto;padding:26px 18px;}
+    a{color:var(--muted);text-decoration:none;font-size:14px;}
+    h1{margin:10px 0 6px;font-size:34px;}
+    .meta{color:var(--muted);font-size:14px;margin:0 0 18px;}
+    .card{
+      background:rgba(255,255,255,.03);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+    .btn{
+      display:inline-block;
+      margin-top:12px;
+      padding:12px 14px;
+      border-radius:12px;
+      background:#fff;
+      color:#0b0b12;
+      font-weight:800;
+      font-size:14px;
+      text-decoration:none;
+    }
+    .note{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .hidden{display:none;}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <a href="../index.html">← Torna alla Home</a>
+
+    <h1>Sondaggio</h1>
+    <p class="meta">Il voto dei lettori aggiorna la sezione “Pagelle dei lettori”.</p>
+
+    <div class="card">
+      <div id="pre23">
+        <h2 style="margin:0 0 8px;">Sondaggio non ancora disponibile</h2>
+        <p class="meta" style="margin:0;">
+          Apriamo il sondaggio <strong>dopo le 23:00</strong>. Torna qui più tardi 🙂
+        </p>
+        <p class="note" id="countdown"></p>
+      </div>
+
+      <div id="post23" class="hidden">
+        <h2 style="margin:0 0 8px;">Vota ora</h2>
+        <p class="meta" style="margin:0;">
+          Compila il modulo: ci metti 30 secondi.
+        </p>
+        <a class="btn" href="https://forms.gle/zr7RNscyDEEg7Q969" target="_blank" rel="noreferrer">
+          Apri il Google Form
+        </a>
+        <p class="note">Se non si apre, copia e incolla il link nel browser.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ⚙️ Impostazione: oggi alle 23:00 ora italiana
+    // Il browser dell’utente usa la propria ora locale: per un pubblico italiano va benissimo.
+    const now = new Date();
+    const openAt = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 0, 0);
+
+    const pre = document.getElementById("pre23");
+    const post = document.getElementById("post23");
+    const countdown = document.getElementById("countdown");
+
+    function tick(){
+      const t = new Date();
+      if (t >= openAt){
+        pre.classList.add("hidden");
+        post.classList.remove("hidden");
+        return;
+      }
+      const diff = openAt - t;
+      const h = Math.floor(diff / (1000*60*60));
+      const m = Math.floor((diff % (1000*60*60)) / (1000*60));
+      const s = Math.floor((diff % (1000*60)) / 1000);
+      countdown.textContent = `Disponibile tra: ${h}h ${m}m ${s}s`;
+    }
+
+    tick();
+    setInterval(tick, 1000);
+  </script>
+</body>
+</html>
