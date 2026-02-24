@@ -345,12 +345,11 @@
         </div>
       </section>
 
-     <!-- PAGELLE LETTORI (AUTO) -->
-<section class="section" id="pagelle">
+ <section class="section" id="pagelle">
   <div class="sectionHead">
     <div>
       <h2 style="margin:0 0 6px;">Pagelle dei lettori</h2>
-      <p class="kicker">Media “Voto serata” + classifiche basate sui sondaggi.</p>
+      <p class="kicker">Media “voti” + classifiche basate sui sondaggi.</p>
     </div>
   </div>
 
@@ -368,14 +367,14 @@
   <!-- Classifiche -->
   <div class="grid" style="margin-top:14px;">
     <div class="card">
-      <h3 style="margin:0 0 8px;">Top 5 — Miglior artista e canzone</h3>
+      <h3 style="margin:0 0 8px;">Top 5 — Migliori</h3>
       <ol id="top5_migliori" style="margin:0; padding-left:18px; color: var(--muted);">
         <li>Caricamento…</li>
       </ol>
     </div>
 
     <div class="card">
-      <h3 style="margin:0 0 8px;">Bottom 3 — Peggior artista e canzone</h3>
+      <h3 style="margin:0 0 8px;">Bottom 3 — Peggiori</h3>
       <ol id="top3_peggiori" style="margin:0; padding-left:18px; color: var(--muted);">
         <li>Caricamento…</li>
       </ol>
@@ -383,7 +382,7 @@
   </div>
 
   <script>
-    const URL_SONDAGGIO = "https://script.google.com/macros/s/AKfycbzKCUL8Ub0h5SqRlwUsnG9QSUAPxx634Ys6NDxRa_7gImLAlxdvoIFKJkT2dKsYY4o2/exec";
+    const URL_SONDAGGIO = "https://script.google.com/macros/s/AKfycbxHlQdr1dGB16xIKOeEMr-cpSHVXlGLA5Qe0XqTnp7Uc-0Qx1dPljzCV1W3IwZqKJc/exec";
 
     function renderList(elId, items, emptyText) {
       const el = document.getElementById(elId);
@@ -401,34 +400,32 @@
       }).join("");
     }
 
-    fetch(URL_SONDAGGIO)
-      .then(r => r.json())
-      .then(d => {
-        // Se lo script restituisce error
-        if (d && d.error) {
-          document.getElementById("media_generale").textContent = "--";
-          document.getElementById("voti_generali").textContent = d.error;
-          renderList("top5_migliori", [], "Errore: " + d.error);
-          renderList("top3_peggiori", [], "Errore: " + d.error);
-          return;
-        }
+    fetch(URL_SONDAGGIO + "?t=" + Date.now(), { cache: "no-store" })
+      .then(r => r.text())
+      .then(text => {
+        let d;
+        try { d = JSON.parse(text); }
+        catch { throw new Error("Risposta non JSON: " + text.slice(0, 120)); }
 
-        // Media + voti
+        if (d.error) throw new Error(d.error);
+
+        // media + voti
         const media = (d.media === null || d.media === undefined) ? "--" : Number(d.media).toFixed(2);
         const voti  = (d.voti === null || d.voti === undefined) ? 0 : Number(d.voti);
 
         document.getElementById("media_generale").textContent = media;
         document.getElementById("voti_generali").textContent = voti + " voti";
 
-        // Classifiche
-        renderList("top5_migliori", d.top5_migliori, "Ancora nessuna risposta.");
-        renderList("top3_peggiori", d.top3_peggiori, "Ancora nessuna risposta.");
+        // classifiche
+        renderList("top5_migliori", d.top5_migliori, "Ancora nessun voto.");
+        renderList("top3_peggiori", d.top3_peggiori, "Ancora nessun voto.");
       })
-      .catch(() => {
+      .catch(err => {
         document.getElementById("media_generale").textContent = "--";
-        document.getElementById("voti_generali").textContent = "Errore caricamento";
-        renderList("top5_migliori", [], "Errore caricamento.");
-        renderList("top3_peggiori", [], "Errore caricamento.");
+        document.getElementById("voti_generali").textContent = "Errore caricamento dati";
+        document.getElementById("top5_migliori").innerHTML = "<li>Errore caricamento dati</li>";
+        document.getElementById("top3_peggiori").innerHTML = "<li>Errore caricamento dati</li>";
+        console.error("Errore pagelle:", err);
       });
   </script>
 </section>
