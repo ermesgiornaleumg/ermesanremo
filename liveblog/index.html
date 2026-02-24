@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Liveblog | ErmeSanremo</title>
+  <meta name="description" content="Liveblog ErmeSanremo: aggiornamenti in tempo reale dalla redazione." />
+
+  <style>
+    :root{
+      --bg:#0b0b12;
+      --text:#f2f2ff;
+      --muted:#b8b8d6;
+      --border:rgba(255,255,255,.10);
+      --shadow:0 12px 30px rgba(0,0,0,.35);
+      --accent:#7c5cff;
+      --accent2:#19d3ff;
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(124,92,255,.25), transparent 55%),
+        radial-gradient(900px 500px at 90% 10%, rgba(25,211,255,.18), transparent 50%),
+        linear-gradient(180deg,#0b0b12,#07070c 70%);
+      color:var(--text);
+      line-height:1.6;
+    }
+    .wrap{max-width:950px;margin:0 auto;padding:26px 18px;}
+    a{color:var(--muted);text-decoration:none;font-size:14px}
+    h1{margin:10px 0 6px;font-size:34px;letter-spacing:.2px}
+    .meta{color:var(--muted);font-size:14px;margin:0 0 18px}
+
+    .card{
+      background:rgba(255,255,255,.03);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .topbar{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:10px;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:rgba(255,255,255,.03);
+      color:var(--muted);
+      font-size:13px;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:999px;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      box-shadow:0 0 18px rgba(124,92,255,.55);
+    }
+
+    .btn{
+      padding:10px 12px;
+      border-radius:12px;
+      background:#fff;
+      color:#0b0b12;
+      font-weight:800;
+      font-size:14px;
+      border:0;
+      cursor:pointer;
+    }
+
+    .post{
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:14px;
+      background:rgba(0,0,0,.22);
+      margin-top:12px;
+    }
+    .post.new{
+      outline:2px solid rgba(124,92,255,.30);
+      box-shadow:0 0 0 4px rgba(25,211,255,.08);
+    }
+
+    .posthead{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      color:var(--muted);
+      font-size:13px;
+      margin-bottom:6px;
+    }
+
+    .author{
+      font-weight:800;
+      color:var(--text);
+    }
+
+    .text{
+      white-space:pre-wrap;
+      font-size:16px;
+    }
+
+    .empty{
+      color:var(--muted);
+      font-size:14px;
+      margin-top:10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <a href="../index.html">← Torna alla Home</a>
+
+    <h1>Liveblog</h1>
+    <p class="meta">Aggiornamenti live in tempo reale. Auto-refresh ogni <strong>20s</strong>.</p>
+
+    <div class="card">
+      <div class="topbar">
+        <div class="pill" id="status">
+          <span class="dot"></span>
+          <span>Caricamento…</span>
+        </div>
+        <button class="btn" id="reload">Aggiorna ora</button>
+      </div>
+
+      <div id="feed"></div>
+      <div class="empty" id="empty" style="display:none;">Nessun aggiornamento ancora.</div>
+    </div>
+  </div>
+
+  <script>
+    const FEED_URL = "https://script.google.com/macros/u/2/s/AKfycbwS9ECkpHT7haSW7prSAqu5QDoX1wWpmb2G-KdkDqg1pmscTNYlhEDtV2ev71QhsN68VQ/exec";
+
+    const feedEl = document.getElementById("feed");
+    const statusEl = document.getElementById("status");
+    const reloadBtn = document.getElementById("reload");
+    const emptyEl = document.getElementById("empty");
+
+    let lastSignature = ""; // per evidenziare nuovo post
+
+    function esc(str){
+      return String(str).replace(/[&<>"']/g, m => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[m]));
+    }
+
+    function normalizeTime(t){
+      // se arriva già stringa ok; proviamo solo ad accorciarla un po'
+      const s = String(t || "").trim();
+      return s.length > 0 ? s : "";
+    }
+
+    async function loadFeed(){
+      try{
+        statusEl.innerHTML = `<span class="dot"></span><span>Aggiornamento…</span>`;
+
+        const res = await fetch(FEED_URL + "?t=" + Date.now(), { cache: "no-store" });
+        const text = await res.text();
+
+        let data;
+        try { data = JSON.parse(text); }
+        catch { throw new Error("Risposta non JSON"); }
+
+        const posts = data.posts || [];
+
+        if (!posts.length){
+          feedEl.innerHTML = "";
+          emptyEl.style.display = "block";
+          statusEl.innerHTML = `<span class="dot"></span><span>Online • nessun post</span>`;
+          return;
+        }
+
+        emptyEl.style.display = "none";
+
+        // firma dell'ultimo post per capire se è nuovo
+        const newest = posts[0];
+        const signature = (newest.time || "") + "|" + (newest.author || "") + "|" + (newest.text || "");
+
+        feedEl.innerHTML = posts.map((p, idx) => {
+          const isNew = idx === 0 && lastSignature && signature !== lastSignature;
+          return `
+            <div class="post ${isNew ? "new" : ""}">
+              <div class="posthead">
+                <span class="author">${esc(p.author || "Redazione")}</span>
+                <span>${esc(normalizeTime(p.time))}</span>
+              </div>
+              <div class="text">${esc(p.text || "")}</div>
+            </div>
+          `;
+        }).join("");
+
+        // aggiorna firma
+        lastSignature = signature;
+
+        statusEl.innerHTML = `<span class="dot"></span><span>Online • Ultimo update: ${new Date().toLocaleTimeString()}</span>`;
+      }catch(e){
+        statusEl.innerHTML = `<span class="dot"></span><span>Errore: ${esc(e.message)}</span>`;
+        console.error("Liveblog error:", e);
+      }
+    }
+
+    reloadBtn.addEventListener("click", loadFeed);
+
+    loadFeed();
+    setInterval(loadFeed, 20000);
+  </script>
+</body>
+</html>
