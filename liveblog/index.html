@@ -11,33 +11,39 @@
       --bg:#0b0b12;
       --text:#f2f2ff;
       --muted:#b8b8d6;
-      --border:rgba(255,255,255,.10);
+      --border:rgba(255,255,255,.12);
       --shadow:0 12px 30px rgba(0,0,0,.35);
       --accent:#7c5cff;
       --accent2:#19d3ff;
     }
+
     *{box-sizing:border-box;}
+    html, body { background: var(--bg) !important; color: var(--text) !important; }
+
     body{
       margin:0;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       background:
         radial-gradient(1200px 600px at 20% -10%, rgba(124,92,255,.25), transparent 55%),
         radial-gradient(900px 500px at 90% 10%, rgba(25,211,255,.18), transparent 50%),
-        linear-gradient(180deg,#0b0b12,#07070c 70%);
-      color:var(--text);
+        linear-gradient(180deg,#0b0b12,#07070c 70%) !important;
+      color:var(--text) !important;
       line-height:1.6;
     }
+
     .wrap{max-width:950px;margin:0 auto;padding:26px 18px;}
-    a{color:var(--muted);text-decoration:none;font-size:14px}
-    h1{margin:10px 0 6px;font-size:34px;letter-spacing:.2px}
-    .meta{color:var(--muted);font-size:14px;margin:0 0 18px}
+    a{color:var(--muted) !important;text-decoration:none;font-size:14px}
+
+    h1{margin:10px 0 6px;font-size:34px;letter-spacing:.2px;color:var(--text) !important}
+    .meta{color:var(--muted) !important;font-size:14px;margin:0 0 18px}
 
     .card{
-      background:rgba(255,255,255,.03);
-      border:1px solid var(--border);
+      background:rgba(255,255,255,.05) !important;
+      border:1px solid var(--border) !important;
       border-radius:18px;
       padding:18px;
       box-shadow:var(--shadow);
+      color:var(--text) !important;
     }
 
     .topbar{
@@ -52,25 +58,44 @@
     .pill{
       display:inline-flex;
       align-items:center;
-      gap:8px;
+      gap:10px;
       padding:8px 12px;
-      border:1px solid var(--border);
+      border:1px solid var(--border) !important;
       border-radius:999px;
-      background:rgba(255,255,255,.03);
-      color:var(--muted);
+      background:rgba(255,255,255,.06) !important;
+      color:var(--text) !important;
       font-size:13px;
     }
+
     .dot{
       width:10px;height:10px;border-radius:999px;
       background:linear-gradient(135deg,var(--accent),var(--accent2));
       box-shadow:0 0 18px rgba(124,92,255,.55);
+      flex:0 0 auto;
+    }
+
+    .liveBadge{
+      margin-left:6px;
+      padding:4px 8px;
+      border-radius:999px;
+      font-weight:900;
+      letter-spacing:.6px;
+      font-size:11px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255, 0, 80, .18);
+      color:var(--text) !important;
+      animation: pulse 1.2s infinite;
+    }
+    @keyframes pulse{
+      0%,100%{ transform: scale(1); opacity: .95; }
+      50%{ transform: scale(1.06); opacity: .55; }
     }
 
     .btn{
       padding:10px 12px;
       border-radius:12px;
-      background:#fff;
-      color:#0b0b12;
+      background:#ffffff !important;
+      color:#0b0b12 !important;
       font-weight:800;
       font-size:14px;
       border:0;
@@ -78,38 +103,41 @@
     }
 
     .post{
-      border:1px solid var(--border);
+      border:1px solid var(--border) !important;
       border-radius:16px;
       padding:14px;
-      background:rgba(0,0,0,.22);
+      background:rgba(0,0,0,.28) !important;
       margin-top:12px;
+      color:var(--text) !important;
     }
+
     .post.new{
-      outline:2px solid rgba(124,92,255,.30);
-      box-shadow:0 0 0 4px rgba(25,211,255,.08);
+      outline:2px solid rgba(124,92,255,.40);
+      box-shadow:0 0 0 4px rgba(25,211,255,.10);
     }
 
     .posthead{
       display:flex;
       justify-content:space-between;
       gap:10px;
-      color:var(--muted);
+      color:var(--muted) !important;
       font-size:13px;
       margin-bottom:6px;
     }
 
     .author{
-      font-weight:800;
-      color:var(--text);
+      font-weight:900;
+      color:var(--text) !important;
     }
 
     .text{
       white-space:pre-wrap;
       font-size:16px;
+      color:var(--text) !important;
     }
 
     .empty{
-      color:var(--muted);
+      color:var(--muted) !important;
       font-size:14px;
       margin-top:10px;
     }
@@ -128,6 +156,7 @@
         <div class="pill" id="status">
           <span class="dot"></span>
           <span>Caricamento…</span>
+          <span class="liveBadge">LIVE</span>
         </div>
         <button class="btn" id="reload">Aggiorna ora</button>
       </div>
@@ -138,14 +167,14 @@
   </div>
 
   <script>
-    const FEED_URL = "https://script.google.com/macros/s/AKfycbyjeE6mShddn2jvXpHJHhOonTMzYjDMBoC9LTKKuxOa_ArribC5nZwC8iBQAnF2K17L/exec";
+    const FEED_URL = "https://script.google.com/macros/s/AKfycbyphzTqR3v5KpxMSriPuaea9fekfP9VfLZqxephU0rYrDdIwH06aVJacmetgklcabN_/exec";
 
     const feedEl = document.getElementById("feed");
     const statusEl = document.getElementById("status");
     const reloadBtn = document.getElementById("reload");
     const emptyEl = document.getElementById("empty");
 
-    let lastSignature = ""; // per evidenziare nuovo post
+    let lastSignature = "";
 
     function esc(str){
       return String(str).replace(/[&<>"']/g, m => ({
@@ -153,57 +182,54 @@
       }[m]));
     }
 
-    function normalizeTime(t){
-      // se arriva già stringa ok; proviamo solo ad accorciarla un po'
-      const s = String(t || "").trim();
-      return s.length > 0 ? s : "";
-    }
-
     async function loadFeed(){
       try{
-        statusEl.innerHTML = `<span class="dot"></span><span>Aggiornamento…</span>`;
+        statusEl.innerHTML = `<span class="dot"></span><span>Aggiornamento…</span><span class="liveBadge">LIVE</span>`;
 
         const res = await fetch(FEED_URL + "?t=" + Date.now(), { cache: "no-store" });
         const text = await res.text();
 
         let data;
         try { data = JSON.parse(text); }
-        catch { throw new Error("Risposta non JSON"); }
+        catch { throw new Error("Risposta non JSON dal feed"); }
 
         const posts = data.posts || [];
 
         if (!posts.length){
           feedEl.innerHTML = "";
           emptyEl.style.display = "block";
-          statusEl.innerHTML = `<span class="dot"></span><span>Online • nessun post</span>`;
+          statusEl.innerHTML = `<span class="dot"></span><span>Online • nessun post</span><span class="liveBadge">LIVE</span>`;
           return;
         }
 
         emptyEl.style.display = "none";
 
-        // firma dell'ultimo post per capire se è nuovo
         const newest = posts[0];
         const signature = (newest.time || "") + "|" + (newest.author || "") + "|" + (newest.text || "");
+        const isNew = lastSignature && signature !== lastSignature;
 
         feedEl.innerHTML = posts.map((p, idx) => {
-          const isNew = idx === 0 && lastSignature && signature !== lastSignature;
+          const highlight = (idx === 0 && isNew) ? "new" : "";
           return `
-            <div class="post ${isNew ? "new" : ""}">
+            <div class="post ${highlight}">
               <div class="posthead">
                 <span class="author">${esc(p.author || "Redazione")}</span>
-                <span>${esc(normalizeTime(p.time))}</span>
+                <span>${esc(p.time || "")}</span>
               </div>
               <div class="text">${esc(p.text || "")}</div>
             </div>
           `;
         }).join("");
 
-        // aggiorna firma
+        if (isNew) window.scrollTo({ top: 0, behavior: "smooth" });
+
         lastSignature = signature;
 
-        statusEl.innerHTML = `<span class="dot"></span><span>Online • Ultimo update: ${new Date().toLocaleTimeString()}</span>`;
+        statusEl.innerHTML = `<span class="dot"></span><span>Online • Ultimo update: ${new Date().toLocaleTimeString()}</span><span class="liveBadge">LIVE</span>`;
       }catch(e){
-        statusEl.innerHTML = `<span class="dot"></span><span>Errore: ${esc(e.message)}</span>`;
+        statusEl.innerHTML = `<span class="dot"></span><span>Errore feed: ${esc(e.message)}</span><span class="liveBadge">LIVE</span>`;
+        feedEl.innerHTML = `<div class="post"><div class="text">Errore feed:\n${esc(e.message)}</div></div>`;
+        emptyEl.style.display = "none";
         console.error("Liveblog error:", e);
       }
     }
