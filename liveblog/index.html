@@ -6,16 +6,17 @@
   <title>Liveblog | ErmeSanremo</title>
   <meta name="description" content="Liveblog ErmeSanremo: aggiornamenti in tempo reale dalla redazione." />
 
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XVPFB6T2W7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <link rel="canonical" href="https://ermesanremo.ermes-umg.it/liveblog/">
 
-  gtag('config', 'G-XVPFB6T2W7');
-</script>
-  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XVPFB6T2W7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XVPFB6T2W7');
+  </script>
+
   <style>
     :root{
       --bg:#0b0b12;
@@ -151,36 +152,46 @@
       font-size:14px;
       margin-top:10px;
     }
+
+    /* contenuto statico: aiuta SEO e toglie soft 404 */
+    .infoBox{
+      margin:14px 0 18px;
+      padding:14px;
+      border:1px solid var(--border);
+      border-radius:16px;
+      background:rgba(255,255,255,.03);
+    }
+    .infoBox h2{
+      margin:0 0 8px;
+      font-size:18px;
+      color:var(--text);
+    }
   </style>
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "LiveBlogPosting",
-  "headline": "Liveblog ErmeSanremo 2026",
-  "description": "Aggiornamenti in tempo reale dal Festival di Sanremo 2026 a cura della redazione ERMES.",
-  "url": "https://ermesanremo.ermes-umg.it/liveblog/",
-  "coverageStartTime": "2026-02-25T20:00:00+01:00",
-  "coverageEndTime": "2026-02-25T23:59:00+01:00",
-  "datePublished": "2026-02-25T20:00:00+01:00",
-  "dateModified": "2026-02-25T20:00:00+01:00",
-  "author": {
-    "@type": "Organization",
-    "name": "ERMES Giornalino UMG"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "ERMES Giornalino UMG",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://blogger.googleusercontent.com/img/a/AVvXsEh4ybQVv-oNn7VReyNrrUF7rGwr1Nu8-gtDdMej0le2IxpMFsLJkDOFNBMVyjFexEAFmZyPjzaSQqTtCNs2j8eHU3D82Y57yls9hnZAyTo5gMafzKxhWjCi4VxjHmDG-Jp-rUzui8cOhuT_tKJwWBf0pdCMcBhOvKSRQKRJrPMddmMkkZhn3cUdhbMZqcM=s255"
-    }
-  },
-  "isAccessibleForFree": true,
-  "inLanguage": "it-IT"
-}
-</script>
-  
+  <script type="application/ld+json" id="live-schema">
+  {
+    "@context": "https://schema.org",
+    "@type": "LiveBlogPosting",
+    "headline": "Liveblog ErmeSanremo 2026",
+    "description": "Aggiornamenti in tempo reale dal Festival di Sanremo 2026 a cura della redazione ERMES.",
+    "url": "https://ermesanremo.ermes-umg.it/liveblog/",
+    "coverageStartTime": "2026-02-25T20:00:00+01:00",
+    "coverageEndTime": "2026-02-25T23:59:00+01:00",
+    "datePublished": "2026-02-25T20:00:00+01:00",
+    "dateModified": "2026-02-25T20:00:00+01:00",
+    "author": { "@type": "Organization", "name": "ERMES Giornalino UMG" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ERMES Giornalino UMG",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://blogger.googleusercontent.com/img/a/AVvXsEh4ybQVv-oNn7VReyNrrUF7rGwr1Nu8-gtDdMej0le2IxpMFsLJkDOFNBMVyjFexEAFmZyPjzaSQqTtCNs2j8eHU3D82Y57yls9hnZAyTo5gMafzKxhWjCi4VxjHmDG-Jp-rUzui8cOhuT_tKJwWBf0pdCMcBhOvKSRQKRJrPMddmMkkZhn3cUdhbMZqcM=s255"
+      }
+    },
+    "isAccessibleForFree": true,
+    "inLanguage": "it-IT"
+  }
+  </script>
 </head>
 
 <body>
@@ -189,6 +200,18 @@
 
     <h1>Liveblog</h1>
     <p class="meta">Aggiornamenti live in tempo reale. Auto-refresh ogni <strong>20s</strong>.</p>
+
+    <!-- ✅ contenuto statico per evitare Soft 404 -->
+    <section class="infoBox">
+      <h2>Liveblog ufficiale ErmeSanremo</h2>
+      <p class="meta" style="margin:0;">
+        Qui trovi aggiornamenti in tempo reale su esibizioni, momenti chiave e commenti dalla redazione.
+        La pagina si aggiorna automaticamente ogni 20 secondi.
+      </p>
+      <p class="meta" style="margin:8px 0 0;">
+        Se non vedi i post, premi “Aggiorna ora” o ricarica la pagina.
+      </p>
+    </section>
 
     <div class="card">
       <div class="topbar">
@@ -200,8 +223,22 @@
         <button class="btn" id="reload">Aggiorna ora</button>
       </div>
 
-      <div id="feed"></div>
-      <div class="empty" id="empty" style="display:none;">Nessun aggiornamento ancora.</div>
+      <!-- ✅ placeholder statico: Google vede contenuto anche senza JS -->
+      <div id="feed">
+        <div class="post">
+          <div class="posthead">
+            <span class="author">Redazione ERMES</span>
+            <span>Aggiornamento live</span>
+          </div>
+          <div class="text">
+            Il liveblog è attivo. I commenti compariranno qui in tempo reale durante la serata.
+          </div>
+        </div>
+      </div>
+
+      <div class="empty" id="empty" style="display:none;">
+        Live attivo: in attesa dei prossimi aggiornamenti.
+      </div>
     </div>
   </div>
 
@@ -212,6 +249,7 @@
     const statusEl = document.getElementById("status");
     const reloadBtn = document.getElementById("reload");
     const emptyEl = document.getElementById("empty");
+    const schemaEl = document.getElementById("live-schema");
 
     let lastSignature = "";
 
@@ -219,6 +257,26 @@
       return String(str).replace(/[&<>"']/g, m => ({
         "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
       }[m]));
+    }
+
+    function formatTime(raw){
+      if (!raw) return "";
+      const d = new Date(raw);
+      if (isNaN(d.getTime())) return "";
+      const ore = String(d.getHours()).padStart(2,"0");
+      const min = String(d.getMinutes()).padStart(2,"0");
+      return ore + ":" + min;
+    }
+
+    function updateSchemaDateModified(){
+      if (!schemaEl) return;
+      try{
+        const obj = JSON.parse(schemaEl.textContent);
+        obj.dateModified = new Date().toISOString();
+        schemaEl.textContent = JSON.stringify(obj);
+      }catch(e){
+        // se per qualche motivo non è JSON valido, non blocchiamo la pagina
+      }
     }
 
     async function loadFeed(){
@@ -237,7 +295,8 @@
         if (!posts.length){
           feedEl.innerHTML = "";
           emptyEl.style.display = "block";
-          statusEl.innerHTML = `<span class="dot"></span><span>Online • nessun post</span><span class="liveBadge">LIVE</span>`;
+          statusEl.innerHTML = `<span class="dot"></span><span>Online • in attesa di aggiornamenti</span><span class="liveBadge">LIVE</span>`;
+          updateSchemaDateModified();
           return;
         }
 
@@ -253,8 +312,8 @@
             <div class="post ${highlight}">
               <div class="posthead">
                 <span class="author">${esc(p.author || "Redazione")}</span>
-<span>${formatTime(p.time)}</span>
-</div>
+                <span>${esc(formatTime(p.time))}</span>
+              </div>
               <div class="text">${esc(p.text || "")}</div>
             </div>
           `;
@@ -265,6 +324,8 @@
         lastSignature = signature;
 
         statusEl.innerHTML = `<span class="dot"></span><span>Online • Ultimo update: ${new Date().toLocaleTimeString()}</span><span class="liveBadge">LIVE</span>`;
+
+        updateSchemaDateModified();
       }catch(e){
         statusEl.innerHTML = `<span class="dot"></span><span>Errore feed: ${esc(e.message)}</span><span class="liveBadge">LIVE</span>`;
         feedEl.innerHTML = `<div class="post"><div class="text">Errore feed:\n${esc(e.message)}</div></div>`;
@@ -275,36 +336,7 @@
 
     reloadBtn.addEventListener("click", loadFeed);
 
-function formatTime(raw){
-  if (!raw) return "";
-
-  const d = new Date(raw);
-
-  if (isNaN(d.getTime())) return "";
-
-  const ore = String(d.getHours()).padStart(2,"0");
-  const min = String(d.getMinutes()).padStart(2,"0");
-
-  return ore + ":" + min;
-}
-    
     loadFeed();
-let schemaScript = document.querySelector('script[type="application/ld+json"]');
-
-if (!schemaScript) {
-  schemaScript = document.createElement("script");
-  schemaScript.type = "application/ld+json";
-  document.head.appendChild(schemaScript);
-}
-
-schemaScript.textContent = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "LiveBlogPosting",
-  "headline": "Liveblog Sanremo 2026",
-  "description": "Aggiornamenti in tempo reale dal Festival di Sanremo 2026 a cura della Redazione Ermes Umg.",
-  "url": window.location.href,
-  "dateModified": new Date().toISOString()
-});
     setInterval(loadFeed, 20000);
   </script>
 </body>
