@@ -1,19 +1,18 @@
-<!doctype html>
+<!doctype html> 
 <html lang="it">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Sondaggio | ErmeSanremo</title>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XVPFB6T2W7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-XVPFB6T2W7');
-</script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XVPFB6T2W7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XVPFB6T2W7');
+  </script>
 
   <style>
     :root{
@@ -58,7 +57,6 @@
       color:var(--muted);
       font-size:13px;
     }
-    .hidden{display:none;}
   </style>
 </head>
 
@@ -70,53 +68,20 @@
     <p class="meta">Il voto dei lettori aggiorna la sezione “Pagelle dei lettori”.</p>
 
     <div class="card">
-      <div id="pre23">
-        <h2 style="margin:0 0 8px;">Sondaggio non ancora disponibile</h2>
-        <p class="meta" style="margin:0;">
-          Apriamo il sondaggio <strong>dopo le 23:00</strong>. Torna qui più tardi 🙂
-        </p>
-        <p class="note" id="countdown"></p>
-      </div>
+      <h2 style="margin:0 0 8px;">Vota ora</h2>
+      <p class="meta" style="margin:0;">
+        Compila il modulo: ci metti 30 secondi.
+      </p>
 
-      <div id="post23" class="hidden">
-        <h2 style="margin:0 0 8px;">Vota ora</h2>
-        <p class="meta" style="margin:0;">
-          Compila il modulo: ci metti 30 secondi.
-        </p>
-        <a class="btn" href="https://forms.gle/zr7RNscyDEEg7Q969" target="_blank" rel="noreferrer">
-          Apri il Google Form
-        </a>
-        <p class="note">Se non si apre, copia e incolla il link nel browser.</p>
-      </div>
+      <a class="btn" href="https://forms.gle/zr7RNscyDEEg7Q969" target="_blank" rel="noreferrer">
+        Apri il Google Form
+      </a>
+
+      <p class="note">
+        Il sondaggio resterà attivo per tutta la durata del Festival.
+      </p>
     </div>
   </div>
 
-  <script>
-    // ⚙️ Impostazione: oggi alle 23:00 ora italiana
-    // Il browser dell’utente usa la propria ora locale: per un pubblico italiano va benissimo.
-    const now = new Date();
-    const openAt = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 0, 0);
-
-    const pre = document.getElementById("pre23");
-    const post = document.getElementById("post23");
-    const countdown = document.getElementById("countdown");
-
-    function tick(){
-      const t = new Date();
-      if (t >= openAt){
-        pre.classList.add("hidden");
-        post.classList.remove("hidden");
-        return;
-      }
-      const diff = openAt - t;
-      const h = Math.floor(diff / (1000*60*60));
-      const m = Math.floor((diff % (1000*60*60)) / (1000*60));
-      const s = Math.floor((diff % (1000*60)) / 1000);
-      countdown.textContent = `Disponibile tra: ${h}h ${m}m ${s}s`;
-    }
-
-    tick();
-    setInterval(tick, 1000);
-  </script>
 </body>
 </html>
