@@ -224,8 +224,8 @@
             <div class="post ${highlight}">
               <div class="posthead">
                 <span class="author">${esc(p.author || "Redazione")}</span>
-                <span>${esc(p.time || "")}</span>
-              </div>
+<span>${formatTime(p.time)}</span>
+</div>
               <div class="text">${esc(p.text || "")}</div>
             </div>
           `;
@@ -246,6 +246,19 @@
 
     reloadBtn.addEventListener("click", loadFeed);
 
+function formatTime(raw){
+  if (!raw) return "";
+
+  const d = new Date(raw);
+
+  if (isNaN(d.getTime())) return "";
+
+  const ore = String(d.getHours()).padStart(2,"0");
+  const min = String(d.getMinutes()).padStart(2,"0");
+
+  return ore + ":" + min;
+}
+    
     loadFeed();
     setInterval(loadFeed, 20000);
   </script>
