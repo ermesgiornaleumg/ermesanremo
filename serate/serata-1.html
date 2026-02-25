@@ -97,6 +97,19 @@
       font-size:14px;
     }
 
+  /* ...tutto il tuo CSS... */
+
+  .article-img{
+    display:block;
+    width:100%;
+    max-width:100%;
+    height:auto;              /* ✅ mantiene proporzioni */
+    border-radius:16px;
+    margin: 0 0 18px;
+    object-fit: cover;        /* ✅ evita deformazioni se mai si imposta height */
+  }
+
+
   </style>
 </head>
 
@@ -115,9 +128,7 @@
 
     <article>
 
-      <img src="https://ermesanremo.ermes-umg.it/foto/antongiulio.jpg" alt="Superman">
-
-      
+<img class="article-img" src="https://ermesanremo.ermes-umg.it/foto/antongiulio.jpg" alt="Superman">      
       <p>
 𝗦𝗮𝗻𝗿𝗲𝗺𝗼 𝟮𝟬𝟮𝟲, 𝗦𝗲𝗿𝗮𝘁𝗮 𝟭: 𝗶 𝗺𝗶𝗲𝗶 𝗮𝘁𝘁𝗲𝘀𝗶𝘀𝘀𝗶𝗺𝗶 (𝗱𝗮 𝗻𝗲𝘀𝘀𝘂𝗻𝗼) 𝗰𝗼𝗺𝗺𝗲𝗻𝘁𝗶 𝘀𝘂𝗹 𝗙𝗲𝘀𝘁𝗶𝘃𝗮𝗹.
 
